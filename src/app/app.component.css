@@ -43,3 +43,9 @@ button {
 .text-error {
     text-align: center;
 }
+
+.logo {
+    width: 10%;
+    align-self: flex-start;
+    padding-left: 1vh;
+}
