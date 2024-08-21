@@ -18,7 +18,7 @@
         <div class="row d-flex justify-content">
           <p>Ingresa una fecha para conocer la variación en pesos de la moneda, y el porcentaje de variación con respecto al valor actual de la moneda.</p>
           <label for="writtenDate">Ingresa una fecha en formato (números) dd-mm-YYYY</label>
-          <input type="text" id="writtenDate" name="writtenDate" class="col-4 m-3" formControlName="writtenDate">
+          <input type="text" id="writtenDate" name="writtenDate" class="col-4 m-3" formControlName="writtenDate" (input)="formatDate($event)">
           <p id="error-message" style="color: red; display: none;">Formato inválido. Use dd-mm-YYYY</p>
           <button (click)="callWrittenDate()" class="col-2 m-3">Enviar</button>
         </div>

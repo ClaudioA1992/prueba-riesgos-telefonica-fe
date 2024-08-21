@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppService } from './app.service';
 import { HttpErrorResponse, HttpResponse, withRequestsMadeViaParent } from '@angular/common/http';
-import { dateValidator } from './date-validator';
 
 @Component({
   selector: 'app-root',
@@ -52,7 +51,7 @@ export class AppComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       dropdownCurrency: [{value: "", disabled: false}, Validators.required],
-      writtenDate: [{value: "", disabled: false}, dateValidator()],
+      writtenDate: [{value: "", disabled: false}],
       dropdownYear: [{value: 0, disabled: false}],
       dropdownMonth: [{value: 0, disabled: false}],
       writtenYear: [{value: "", disabled: false}]
@@ -79,9 +78,6 @@ export class AppComponent implements OnInit {
     for(var i = 1970; i < 2025; i++){
       this.years.push(i);
     }
-    // this.form.valueChanges.subscribe(val => {
-    //   this.form.updateValueAndValidity()
-    // });
   }
 
   callWrittenDate() {
