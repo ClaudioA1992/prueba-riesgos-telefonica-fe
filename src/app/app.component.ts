@@ -45,6 +45,8 @@ export class AppComponent implements OnInit {
   errorMessage = "";
   errorEvent = false;
 
+  isLoading = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private service: AppService
@@ -86,15 +88,18 @@ export class AppComponent implements OnInit {
     
     this.resetVariables();
 
+    this.isLoading = true;
+
     if(this.form.value.dropdownCurrency == "" || this.form.value.writtenDate == "") {
       this.info = true;
       this.errorMessage = "Ingresa todos los datos requeridos.";
+      this.isLoading = false;
       return
     }
 
-    this.service.writtenDateToApi(this.form.value.dropdownCurrency, this.form.value.writtenDate).subscribe(
+    this.service.writtenDateToApi(this.form.value.dropdownCurrency, this.form.value.writtenDate).subscribe({
       
-      (response: HttpResponse<any>) => {
+      next: (response: HttpResponse<any>) => {
      
         this.resetVariables();
         this.responseString = JSON.stringify(response);
@@ -141,14 +146,17 @@ export class AppComponent implements OnInit {
           this.errorMessage = "Error con la llamada a la API";
         }
       },
-    (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         console.log("ERROR");
         console.log("Status de error: " + error.status);
         this.info = true;
         this.errorEvent = true;
         this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    );
+    });
   }
 
   callSelectedDate() {
@@ -157,15 +165,18 @@ export class AppComponent implements OnInit {
 
     this.resetVariables();
 
+    this.isLoading = true;
+
     if(this.form.value.dropdownCurrency == "" || this.form.value.dropdownYear == 0 || this.form.value.dropdownMonth == 0) {
       this.info = true;
       this.errorMessage = "Ingresa todos los datos requeridos.";
+      this.isLoading = false;
       return
     }
 
-    this.service.selectedDateToApi(this.form.value.dropdownCurrency, this.form.value.dropdownYear).subscribe(
+    this.service.selectedDateToApi(this.form.value.dropdownCurrency, this.form.value.dropdownYear).subscribe({
       
-      (response: HttpResponse<any>) => {
+      next: (response: HttpResponse<any>) => {
       
       this.resetVariables();
       this.responseString = JSON.stringify(response);
@@ -212,14 +223,16 @@ export class AppComponent implements OnInit {
         this.info = false;
       }
 
-    }, (error: HttpErrorResponse) => {
+    }, error: (error: HttpErrorResponse) => {
       console.log("ERROR");
       console.log("Status de error: " + error.status);
       this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
       this.errorEvent = true;
       this.info = false;
+    }, complete: () => {
+      this.isLoading = false;
     }
-  );
+  });
 
   }
 
@@ -229,15 +242,18 @@ export class AppComponent implements OnInit {
 
     this.resetVariables();
 
+    this.isLoading = true;
+
     if(this.form.value.dropdownCurrency == "" || this.form.value.writtenYear == "") {
       this.info = true;
       this.errorMessage = "Ingresa todos los datos requeridos.";
+      this.isLoading = false;
       return
     }
 
-    this.service.writtenYearToApi(this.form.value.dropdownCurrency, this.form.value.writtenYear).subscribe(
+    this.service.writtenYearToApi(this.form.value.dropdownCurrency, this.form.value.writtenYear).subscribe({
       
-      (response: HttpResponse<any>) => {
+      next: (response: HttpResponse<any>) => {
       
         this.resetVariables();
         this.responseString = JSON.stringify(response);
@@ -280,12 +296,14 @@ export class AppComponent implements OnInit {
           this.infoShown = "yearWritten";
           this.errorMessage = "No existen datos para este año.";
         }
-      }, (error: HttpErrorResponse) => {
+      }, error: (error: HttpErrorResponse) => {
         this.info = true;
         this.infoShown = "yearWritten";
         this.errorEvent = true;
         this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
-      });
+      }, complete: () => {
+        this.isLoading = false;
+      }});
   }
 
   getDaysOfMonth(data: any[], month: number, year: number) {

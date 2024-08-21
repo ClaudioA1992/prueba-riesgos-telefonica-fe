@@ -50,6 +50,13 @@
     <div *ngIf="info == true" class="card-footer p-4 pb-3">
 
       <h3 class="m-5">Resultados</h3>
+
+      <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center">
+        <div class="spinner-border" role="status">
+        </div>
+        <br>
+        <span class="sr-only">Cargando...</span>
+      </div>
   
       <div *ngIf="infoShown == 'dateWritten'" class="m-4">
         <div *ngIf="!errorEvent" class="m-4">
