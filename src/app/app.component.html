@@ -41,7 +41,7 @@
         <div class="row">
           <p>Ingresa un año para conocer el promedio de la moneda en cada mes de este año, además del porcentaje de variación de la moneda en cada mes.</p>
           <label for="writtenYear">Ingresa un año en formato YYYY</label>
-          <input id="writterYear" name="writtenYear" class="col-4 m-3" formControlName="writtenYear">
+          <input id="writterYear" name="writtenYear" class="col-4 m-3" formControlName="writtenYear" (input)="formatYearDate($event)">
           <button (click)="callWrittenYear()" class="col-2 m-3">Enviar</button>
         </div>
       </div>

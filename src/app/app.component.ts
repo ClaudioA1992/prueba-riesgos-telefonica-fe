@@ -423,6 +423,14 @@ export class AppComponent implements OnInit {
     }
   }
 
+  formatYearDate(event:Event): void {
+    const input = event.target as HTMLInputElement; 
+
+    let value = input.value.replace(/\D/g, ''); // Elimina todo lo que no sea dígito
+    input.value = value;
+
+  }
+
 }
 
 
