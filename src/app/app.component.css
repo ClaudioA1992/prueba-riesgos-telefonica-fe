@@ -39,3 +39,7 @@ button {
     border-radius: 2px;
     border-width: 0px;
 }
+
+.text-error {
+    text-align: center;
+}
