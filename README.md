@@ -1,26 +1,15 @@
 # PruebaRiesgosTelefonicaFrontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3. It's a test project to enter for evaluation of Riesgos Telefónica team.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Having Node.JS 20 installed on your computer, run the command 'npm install' to install it's dependencies on your local pc, after downloading the repository, this in the home folder of the project.
+Then run `ng serve` for a dev server. This will build and serve the project on the port 4200. Navigate to `http://localhost:4200/` so you can explore it.
 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
 ## Further help
 
