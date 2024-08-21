@@ -1,0 +1,40 @@
+html, body {
+    background-color: rgb(224, 229, 205);
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    background-color: rgb(224, 229, 205);
+    min-height: 100vh;
+}
+
+.info-container {
+    background-color: rgb(255, 252, 237);
+    width: 50vh;
+}
+
+label {
+    opacity: .6;
+}
+
+h1, h2, h3, h4, h5 {
+    color: rgb(58, 56, 56)
+}
+
+/* p {
+    width: 50%;
+} */
+
+ul {
+    margin-bottom: 0;
+}
+
+.card-footer ul, div, p {
+    background-color: inherit; /* Hereda el color de fondo del card-footer */
+}
+
+button {
+    border-radius: 2px;
+    border-width: 0px;
+}
