@@ -60,8 +60,8 @@
   
       <div *ngIf="infoShown == 'dateWritten'" class="m-4">
         <div *ngIf="!errorEvent" class="m-4">
-          <h3 class="m-2">{{infoTitle}}</h3>
-          <h4 class="m-2">Variación de moneda en pesos y en porcentaje (desde pesos) </h4>
+          <h3>{{infoTitle}}</h3>
+          <h4>Variación de moneda en pesos y en porcentaje (desde pesos) </h4>
           <table class="table mt-5">
             <tr>
               <th>Valor de moneda {{currencySelected}} en el día ingresado</th>
@@ -80,9 +80,10 @@
       </div>
 
       <div *ngIf="infoShown == 'dateSelected'" class="m-4">
+
         <div *ngIf="currencySelected != 'utm'; else elseDivDateSelected" class="m-4">
-          <h3 class="m-2">{{infoTitle}}</h3>
-          <h4 class="m-2">Variación de moneda en pesos en mes seleccionado.</h4>
+          <h3>{{infoTitle}}</h3>
+          <h4>Variación de moneda en pesos en mes seleccionado.</h4>
           <table class="table mt-5">
             <tr>
               <th>Valor de moneda a inicio de mes</th>
@@ -116,10 +117,12 @@
             </tr>
           </table>
         </div>
+
         <ng-template #elseDivDateSelected>
           <h5 class = "py-2">Seleccionado utm</h5>
           <p>Valor en mes ingresado: {{utmValue}}</p>
         </ng-template>
+
       </div>
   
       <div *ngIf="infoShown == 'yearWritten'" class="m-4">

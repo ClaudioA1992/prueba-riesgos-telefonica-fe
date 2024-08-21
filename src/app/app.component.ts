@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for(var i = 1970; i < 2025; i++){
+    for(var i = 1977; i < 2025; i++){
       this.years.push(i);
     }
   }
