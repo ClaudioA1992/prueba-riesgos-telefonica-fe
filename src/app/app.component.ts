@@ -151,6 +151,7 @@ export class AppComponent implements OnInit {
         console.log("Status de error: " + error.status);
         this.info = true;
         this.errorEvent = true;
+        this.isLoading = false;
         this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
       },
       complete: () => {
@@ -167,6 +168,10 @@ export class AppComponent implements OnInit {
 
     this.isLoading = true;
 
+    console.log("Values: " + this.form.value.dropdownCurrency +
+       " " + this.form.value.dropdownYear +
+       " " + this.form.value.dropdownMonth)
+
     if(this.form.value.dropdownCurrency == "" || this.form.value.dropdownYear == 0 || this.form.value.dropdownMonth == 0) {
       this.info = true;
       this.errorMessage = "Ingresa todos los datos requeridos.";
@@ -178,61 +183,64 @@ export class AppComponent implements OnInit {
       
       next: (response: HttpResponse<any>) => {
       
-      this.resetVariables();
-      this.responseString = JSON.stringify(response);
+        this.resetVariables();
+        this.responseString = JSON.stringify(response);
 
-      if(response.status == 200) {
+        if(response.status == 200) {
 
-        this.infoShown = "dateSelected";
-        this.info = true;
-        this.currencySelected = this.form.value.dropdownCurrency;
-        this.infoTitle = "Variación de moneda en pesos chilenos de " + this.currencySelected+ " en "+ this.getMonthName(this.form.value.dropdownMonth) + " de " + this.form.value.dropdownYear +":";
-        console.log("DATA: " + JSON.stringify(this.responseString));
-        console.log("Month dropdown: " + this.form.value.dropdownMonth);
+          this.infoShown = "dateSelected";
+          this.info = true;
+          this.currencySelected = this.form.value.dropdownCurrency;
+          this.infoTitle = "Variación de moneda en pesos chilenos de " + this.currencySelected+ " en "+ this.getMonthName(this.form.value.dropdownMonth) + " de " + this.form.value.dropdownYear +":";
+          console.log("DATA: " + JSON.stringify(this.responseString));
+          console.log("Month dropdown: " + this.form.value.dropdownMonth);
 
-        if(response.body.serie.length > 1 && this.currencySelected != "utm") {
+          if(response.body.serie.length > 1 && this.currencySelected != "utm") {
 
-          let daysOfMonth = this.getDaysOfMonth(response.body.serie, this.form.value.dropdownMonth, this.form.value.dropdownYear);
-          this.mean = this.valueTrimming(this.getAverage(daysOfMonth));
-          this.modes = this.getMode(daysOfMonth);
-          console.log("Modes: " + this.modes + " Modes length: " + this.modes.length);
-          console.log("Days of the month from filter: " + JSON.stringify(daysOfMonth));
-          console.log("reponse.body.serie: " + response.body.serie);
-          let edgeDays = this.getFirstAndLastDayOfMonth(daysOfMonth, this.form.value.dropdownMonth, this.form.value.dropdownYear);
-          this.firstMonthDayCurrency = edgeDays.firstDay.valor;
-          this.lastMonthDayCurrency = edgeDays.lastDay.valor;
-          this.daysMoneyValueDifference = edgeDays.lastDay.valor - edgeDays.firstDay.valor;
-          this.percentageVariation = this.percentageVariation = 100*(this.daysMoneyValueDifference/edgeDays.firstDay.valor);
-          this.percentageVariationText = this.valueTrimming(this.percentageVariation);
+            let daysOfMonth = this.getDaysOfMonth(response.body.serie, this.form.value.dropdownMonth, this.form.value.dropdownYear);
+            this.mean = this.valueTrimming(this.getAverage(daysOfMonth));
+            this.modes = this.getMode(daysOfMonth);
+            console.log("Modes: " + this.modes + " Modes length: " + this.modes.length);
+            console.log("Days of the month from filter: " + JSON.stringify(daysOfMonth));
+            console.log("reponse.body.serie: " + response.body.serie);
+            let edgeDays = this.getFirstAndLastDayOfMonth(daysOfMonth, this.form.value.dropdownMonth, this.form.value.dropdownYear);
+            this.firstMonthDayCurrency = edgeDays.firstDay.valor;
+            this.lastMonthDayCurrency = edgeDays.lastDay.valor;
+            this.daysMoneyValueDifference = edgeDays.lastDay.valor - edgeDays.firstDay.valor;
+            this.percentageVariation = this.percentageVariation = 100*(this.daysMoneyValueDifference/edgeDays.firstDay.valor);
+            this.percentageVariationText = this.valueTrimming(this.percentageVariation);
 
-        } else if(this.currencySelected == "utm" && response.body.serie.length > 0) {
-          this.utmValue = response.body.serie[0].valor;
-        } else if(response.body.serie.length == 1) {
-          this.daysMoneyValueDifference = 0;
-          this.percentageVariation = 0;
-          this.errorMessage = "El mes ingresado solo tiene un mes registrado.";
+          } else if(this.currencySelected == "utm" && response.body.serie.length > 0) {
+            this.utmValue = response.body.serie[0].valor;
+          } else if(response.body.serie.length == 1) {
+            this.daysMoneyValueDifference = 0;
+            this.percentageVariation = 0;
+            this.errorMessage = "El mes ingresado solo tiene un mes registrado.";
+          } else {
+            this.infoShown = "";
+            this.errorMessage = "No existen registros en el mes ingresado.";
+          }
+
         } else {
-          this.infoShown = "";
-          this.errorMessage = "No existen registros en el mes ingresado.";
+          console.log("ERROR");
+          console.log("Status de error: " + response.status);
+          this.errorEvent = true;
+          this.info = false;
         }
 
-      } else {
+      }, 
+      error: (error: HttpErrorResponse) => {
         console.log("ERROR");
-        console.log("Status de error: " + response.status);
+        console.log("Status de error: " + error.status);
+        this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
         this.errorEvent = true;
-        this.info = false;
+        this.info = true;
+        this.isLoading = false;
+      }, 
+      complete: () => {
+        this.isLoading = false;
       }
-
-    }, error: (error: HttpErrorResponse) => {
-      console.log("ERROR");
-      console.log("Status de error: " + error.status);
-      this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
-      this.errorEvent = true;
-      this.info = false;
-    }, complete: () => {
-      this.isLoading = false;
-    }
-  });
+    });
 
   }
 
@@ -300,6 +308,7 @@ export class AppComponent implements OnInit {
         this.info = true;
         this.infoShown = "yearWritten";
         this.errorEvent = true;
+        this.isLoading = false;
         this.errorMessage = "Error con la llamada a la API: " + "\'" + error.message + "\'";
       }, complete: () => {
         this.isLoading = false;
